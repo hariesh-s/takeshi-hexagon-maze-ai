@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.9" tiledversion="1.9.2" orientation="hexagonal" renderorder="right-down" width="18" height="18" tilewidth="60" tileheight="70" infinite="0" hexsidelength="35" staggeraxis="y" staggerindex="odd" nextlayerid="3" nextobjectid="1">
+ <tileset firstgid="1" source="sand/sand-1.tsx"/>
+ <tileset firstgid="2" source="sand/sand-2.tsx"/>
+ <tileset firstgid="3" source="sand/sand-3.tsx"/>
+ <tileset firstgid="4" source="sand/sand-5.tsx"/>
+ <tileset firstgid="5" source="sand/sand-6.tsx"/>
+ <tileset firstgid="6" source="sand/sand-4.tsx"/>
+ <tileset firstgid="7" source="grass/grass-1.tsx"/>
+ <tileset firstgid="8" source="grass/grass-2.tsx"/>
+ <tileset firstgid="9" source="grass/grass-3.tsx"/>
+ <tileset firstgid="10" source="grass/grass-4.tsx"/>
+ <tileset firstgid="11" source="grass/grass-5.tsx"/>
+ <tileset firstgid="12" source="grass/grass-6.tsx"/>
+ <tileset firstgid="13" source="dirt/dirt-1.tsx"/>
+ <tileset firstgid="14" source="dirt/dirt-2.tsx"/>
+ <tileset firstgid="15" source="dirt/dirt-3.tsx"/>
+ <tileset firstgid="16" source="dirt/dirt-4.tsx"/>
+ <tileset firstgid="17" source="dirt/dirt-6.tsx"/>
+ <tileset firstgid="18" source="dirt/dirt-5.tsx"/>
+ <layer id="1" name="terrain" width="18" height="18">
+  <data encoding="csv">
+1,1,1,1,1,3,1,1,5,1,1,1,1,1,1,1,14,16,
+1,1,1,1,1,1,1,1,1,1,2,1,1,6,1,1,14,16,
+1,1,3,1,1,4,1,1,1,1,1,1,1,1,1,1,13,17,
+1,1,1,1,1,1,1,2,1,1,1,2,1,1,1,1,16,17,
+3,1,1,2,1,1,1,5,1,1,1,1,1,5,1,1,14,14,
+1,1,6,1,1,1,1,1,1,1,3,1,1,1,1,1,13,15,
+1,1,1,1,1,2,1,1,1,1,1,1,1,1,3,1,15,18,
+1,3,1,1,1,1,1,4,1,1,1,1,2,1,1,1,13,18,
+1,1,1,1,1,3,1,1,1,1,1,1,1,1,1,1,14,16,
+5,1,1,1,1,1,1,1,3,1,1,6,1,1,1,1,13,16,
+1,1,2,1,1,1,1,1,1,3,1,1,1,1,1,1,15,16,
+1,1,1,1,1,3,1,1,1,1,1,1,1,3,1,1,15,16,
+1,1,1,1,1,1,1,1,1,1,5,1,1,1,1,1,13,15,
+1,1,6,1,1,1,1,1,1,1,1,1,1,2,1,1,14,15,
+1,3,1,1,1,5,1,1,2,1,1,1,1,4,3,1,15,18,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,15,17,
+9,8,10,7,7,8,7,9,11,7,8,8,7,7,8,9,11,17,
+9,9,10,9,10,10,12,11,9,9,10,11,8,12,10,9,9,12
+</data>
+ </layer>
+</map>
