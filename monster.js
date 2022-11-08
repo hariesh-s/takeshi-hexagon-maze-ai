@@ -65,34 +65,34 @@ class Monster {
    moveUp() {
       this.y_coord -= 1;
       let ydiff = 0;
-      function animateMonsterMoveUp() {
+      const animateMonsterMoveUp = () => {
          if (ydiff === VERTICAL_STEP) {
             window.cancelAnimationFrame(animateMonsterMoveUp);
             return;
          }
 
          ydiff += SPEED_Y;
-         monster.y -= SPEED_Y; // cannot use this
+         this.y -= SPEED_Y;
 
          window.requestAnimationFrame(animateMonsterMoveUp);
-      }
+      };
       animateMonsterMoveUp();
    }
 
    moveDown() {
       this.y_coord += 1;
       let ydiff = 0;
-      function animateMonsterMoveDown() {
+      const animateMonsterMoveDown = () => {
          if (ydiff === VERTICAL_STEP) {
             window.cancelAnimationFrame(animateMonsterMoveDown);
             return;
          }
 
          ydiff += SPEED_Y;
-         monster.y += SPEED_Y; // cannot use this
+         this.y += SPEED_Y;
 
          window.requestAnimationFrame(animateMonsterMoveDown);
-      }
+      };
       animateMonsterMoveDown();
    }
 
@@ -101,17 +101,17 @@ class Monster {
          this.x_coord += dx_coord;
 
          let xdiff = 0;
-         function animateMonsterMoveLeft() {
+         const animateMonsterMoveLeft = () => {
             if (xdiff === Math.abs(dx)) {
                window.cancelAnimationFrame(animateMonsterMoveLeft);
                return;
             }
 
             xdiff += SPEED_X;
-            monster.x -= SPEED_X; // cannot use this
+            this.x -= SPEED_X;
 
             window.requestAnimationFrame(animateMonsterMoveLeft);
-         }
+         };
          animateMonsterMoveLeft();
       }
    }
@@ -121,17 +121,17 @@ class Monster {
          this.x_coord += dx_coord;
 
          let xdiff = 0;
-         function animateMonsterMoveRight() {
+         const animateMonsterMoveRight = () => {
             if (xdiff === Math.abs(dx)) {
                window.cancelAnimationFrame(animateMonsterMoveRight);
                return;
             }
 
             xdiff += SPEED_X;
-            monster.x += SPEED_X; // cannot use this
+            this.x += SPEED_X;
 
             window.requestAnimationFrame(animateMonsterMoveRight);
-         }
+         };
          animateMonsterMoveRight();
       }
    }

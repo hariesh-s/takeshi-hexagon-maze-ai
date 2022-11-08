@@ -18,16 +18,15 @@ class Map {
    moveUp() {
       let ydiff = 0;
       let toggle = true;
-      function animateMoveUp() {
+      const animateMapMoveUp = () => {
          if (ydiff === VERTICAL_STEP) {
-            window.cancelAnimationFrame(animateMoveUp);
+            window.cancelAnimationFrame(animateMapMoveUp);
             player.movement_status = "DEFAULT";
             player.x_spritesheet = 0; // reset to 0 at end of movement
             return;
          }
 
-         // cannot use this keyword
-         map.y -= SPEED_Y;
+         this.y -= SPEED_Y;
          // monster is stationary wrt map hence
          // monsters canvas x & y changes with
          // map's but it's coords don't change
@@ -38,25 +37,24 @@ class Map {
          // and doing it every alternate cycle
          if (toggle) player.x_spritesheet = (player.x_spritesheet + 30) % 120;
          toggle = !toggle;
-         window.requestAnimationFrame(animateMoveUp);
-      }
-      animateMoveUp();
+         window.requestAnimationFrame(animateMapMoveUp);
+      };
+      animateMapMoveUp();
    }
 
    // closure
    moveDown() {
       let ydiff = 0;
       let toggle = true;
-      function animateMoveDown() {
+      const animateMapMoveDown = () => {
          if (ydiff === VERTICAL_STEP) {
-            window.cancelAnimationFrame(animateMoveDown);
+            window.cancelAnimationFrame(animateMapMoveDown);
             player.movement_status = "DEFAULT";
             player.x_spritesheet = 0; // reset to 0 at end of movement
             return;
          }
 
-         // cannot use this keyword
-         map.y += SPEED_Y;
+         this.y += SPEED_Y;
          // monster is stationary wrt map hence
          // monsters canvas x & y changes with
          // map's but it's coords don't change
@@ -67,25 +65,24 @@ class Map {
          // and doing it every alternate cycle
          if (toggle) player.x_spritesheet = (player.x_spritesheet + 30) % 120;
          toggle = !toggle;
-         window.requestAnimationFrame(animateMoveDown);
-      }
-      animateMoveDown();
+         window.requestAnimationFrame(animateMapMoveDown);
+      };
+      animateMapMoveDown();
    }
 
    // closure
    moveLeft(dx) {
       let xdiff = 0;
       let toggle = true;
-      function animateMoveLeft() {
+      const animateMapMoveLeft = () => {
          if (xdiff === dx) {
-            window.cancelAnimationFrame(animateMoveLeft);
+            window.cancelAnimationFrame(animateMapMoveLeft);
             player.movement_status = "DEFAULT";
             player.x_spritesheet = 0; // reset to 0 at end of movement
             return;
          }
 
-         // cannot use this keyword
-         map.x -= SPEED_X;
+         this.x -= SPEED_X;
          // monster is stationary wrt map hence
          // monsters canvas x & y changes with
          // map's but it's coords don't change
@@ -96,25 +93,24 @@ class Map {
          // and doing it every alternate cycle
          if (toggle) player.x_spritesheet = (player.x_spritesheet + 30) % 120;
          toggle = !toggle;
-         window.requestAnimationFrame(animateMoveLeft);
-      }
-      animateMoveLeft();
+         window.requestAnimationFrame(animateMapMoveLeft);
+      };
+      animateMapMoveLeft();
    }
 
    // closure
    moveRight(dx) {
       let xdiff = 0;
       let toggle = true;
-      function animateMoveRight() {
+      const animateMapMoveRight = () => {
          if (xdiff === dx) {
-            window.cancelAnimationFrame(animateMoveRight);
+            window.cancelAnimationFrame(animateMapMoveRight);
             player.movement_status = "DEFAULT";
             player.x_spritesheet = 0; // reset to 0 at end of movement
             return;
          }
 
-         // cannot use this keyword
-         map.x += SPEED_X;
+         this.x += SPEED_X;
          // monster is stationary wrt map hence
          // monsters canvas x & y changes with
          // map's but it's coords don't change
@@ -125,9 +121,9 @@ class Map {
          // and doing it every alternate cycle
          if (toggle) player.x_spritesheet = (player.x_spritesheet + 30) % 120;
          toggle = !toggle;
-         window.requestAnimationFrame(animateMoveRight);
-      }
-      animateMoveRight();
+         window.requestAnimationFrame(animateMapMoveRight);
+      };
+      animateMapMoveRight();
    }
 }
 
