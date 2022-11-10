@@ -1,4 +1,5 @@
 import { canva } from "./canvas.js";
+import findBestNeighbour from "./ai-logic.js";
 import {
    HEXCELL_WIDTH,
    HEXCELL_HEIGHT,
@@ -41,7 +42,7 @@ class Monster {
       // AI to be inserted here instead of the random
       // function The AI will decide the value of
       // decision and accordingly the monster will move
-      const decision = Math.floor(Math.random() * 6);
+      const decision = findBestNeighbour(this.x_coord, this.y_coord);
       switch (decision) {
          case 0:
             this.moveUpLeft();

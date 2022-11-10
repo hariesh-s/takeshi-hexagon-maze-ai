@@ -99,4 +99,4 @@ function start_game() {
    window.requestAnimationFrame(start_game);
 }
 start_game();
-const monster_motion = setInterval(monster.move, 500);
+const monster_motion = setInterval(monster.move, 240);
