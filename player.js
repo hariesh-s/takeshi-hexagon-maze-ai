@@ -1,23 +1,37 @@
-import { canva } from "./canvas.js";
+import { canva, canvas } from "./canvas.js";
 import map from "./map.js";
 import {
    HEXCELL_WIDTH,
    HEXCELL_HEIGHT,
    HORIZONTAL_STEP,
    SEMI_HORIZONTAL_STEP,
+   VERTICAL_STEP,
+   INITIAL_PLAYER_X_COORDINATE,
+   INITIAL_PLAYER_Y_COORDINATE,
+   PLAYER_X_BOUNDARY,
+   PLAYER_Y_BOUNDARY,
+   SPEED_X,
+   SPEED_Y
 } from "./constants.js";
 
 class Player {
    constructor(player_spritesheets) {
-      this.x_coord = 0;
-      this.y_coord = 0;
+      this.x_coord = INITIAL_PLAYER_X_COORDINATE;
+      this.y_coord = INITIAL_PLAYER_Y_COORDINATE;
       this.x_spritesheet = 0;
       this.y_spritesheet = 0;
       this.spritesheets = player_spritesheets;
       this.width = this.spritesheets[0].width / 4;
       this.height = this.spritesheets[0].height;
-      this.x = HEXCELL_WIDTH / 2 - this.width / 2;
-      this.y = HEXCELL_HEIGHT / 2 - this.height / 2;
+      this.x =
+         HEXCELL_WIDTH / 2 -
+         this.width / 2 +
+         INITIAL_PLAYER_X_COORDINATE * HORIZONTAL_STEP +
+         (this.y_coord % 2 === 0 ? 0 : SEMI_HORIZONTAL_STEP);
+      this.y =
+         HEXCELL_HEIGHT / 2 -
+         this.height / 2 +
+         INITIAL_PLAYER_Y_COORDINATE * VERTICAL_STEP;
       this.movement_status = "DEFAULT";
       this.img = this.spritesheets[1];
    }
@@ -56,19 +70,107 @@ class Player {
       );
    }
 
-   moveLeft() {
-      if (this.x_coord - 1 >= 0) {
-         this.x_coord -= 1;
-         this.movement_status = "LEFT";
-         map.moveRight(HORIZONTAL_STEP);
+   moveUp() {
+      if (this.y_coord - 1 >= 0) {
+         this.y_coord += -1;
+         this.movement_status = "UP";
+
+         if (this.y >= 0.5 * canvas.height) map.moveDown();
+         else {
+            let ydiff = 0;
+            const animatePlayerMoveUp = () => {
+               if (ydiff === VERTICAL_STEP) {
+                  window.cancelAnimationFrame(animatePlayerMoveUp);
+                  this.movement_status = "DEFAULT";
+                  this.x_spritesheet = 0;
+                  return
+               }
+
+               this.y += -SPEED_Y;
+               ydiff += SPEED_Y;
+               player.x_spritesheet = (player.x_spritesheet + 30) % 120;
+               window.requestAnimationFrame(animatePlayerMoveUp);
+            };
+            animatePlayerMoveUp();
+         }
       }
    }
 
-   moveRight() {
-      if (this.x_coord + 1 <= 16) {
-         this.x_coord += 1;
+   moveDown() {
+      if (this.y_coord + 1 <= PLAYER_Y_BOUNDARY) {
+         this.y_coord += 1;
+         this.movement_status = "DOWN";
+
+         if (this.y >= 0.5 * canvas.height) map.moveUp();
+         else {
+            let ydiff = 0;
+            const animatePlayerMoveDown = () => {
+               if (ydiff === VERTICAL_STEP) {
+                  window.cancelAnimationFrame(animatePlayerMoveDown);
+                  this.movement_status = "DEFAULT";
+                  this.x_spritesheet = 0;
+                  return
+               }
+
+               this.y += SPEED_Y;
+               ydiff += SPEED_Y;
+               player.x_spritesheet = (player.x_spritesheet + 30) % 120;
+               window.requestAnimationFrame(animatePlayerMoveDown);
+            };
+            animatePlayerMoveDown();
+         }
+      }
+   }
+
+   moveLeft(dx = HORIZONTAL_STEP, dx_coord = -1) {
+      if (this.x_coord + dx_coord >= 0) {
+         this.x_coord += dx_coord;
+         this.movement_status = "LEFT";
+
+         if (this.x >= 0.5 * canvas.width) map.moveRight(dx);
+         else {
+            let xdiff = 0;
+            const animatePlayerMoveLeft = () => {
+               if (xdiff === dx) {
+                  window.cancelAnimationFrame(animatePlayerMoveLeft);
+                  this.movement_status = "DEFAULT";
+                  this.x_spritesheet = 0;
+                  return;
+               }
+
+               this.x += -SPEED_X;
+               xdiff += SPEED_X;
+               player.x_spritesheet = (player.x_spritesheet + 30) % 120;
+               window.requestAnimationFrame(animatePlayerMoveLeft);
+            };
+            animatePlayerMoveLeft();
+         }
+      }
+   }
+
+   moveRight(dx = HORIZONTAL_STEP, dx_coord = 1) {
+      if (this.x_coord + dx_coord <= PLAYER_X_BOUNDARY) {
+         this.x_coord += dx_coord;
          this.movement_status = "RIGHT";
-         map.moveLeft(HORIZONTAL_STEP);
+
+         if (this.x >= 0.5 * canvas.width) map.moveLeft(dx);
+         else {
+            let xdiff = 0;
+            const animatePlayerMoveLeft = () => {
+               if (xdiff === dx) {
+                  window.cancelAnimationFrame(animatePlayerMoveLeft);
+                  this.movement_status = "DEFAULT";
+                  this.x_spritesheet = 0;
+                  return;
+               }
+
+               this.x += SPEED_X;
+               xdiff += SPEED_X;
+               player.x_spritesheet = (player.x_spritesheet + 30) % 120;
+               window.requestAnimationFrame(animatePlayerMoveLeft);
+            };
+            animatePlayerMoveLeft();
+         }
       }
    }
 
@@ -78,11 +180,8 @@ class Player {
       // movement depends on destination coords
       const can_move = this.y_coord - 1 >= 0 && this.x_coord + dx_coord >= 0;
       if (can_move) {
-         this.y_coord -= 1;
-         this.x_coord += dx_coord;
-         this.movement_status = "UP";
-         map.moveDown();
-         map.moveRight(SEMI_HORIZONTAL_STEP);
+         this.moveUp();
+         this.moveLeft(SEMI_HORIZONTAL_STEP, dx_coord);
       }
    }
 
@@ -90,13 +189,11 @@ class Player {
       // x increases when y is odd
       let dx_coord = this.y_coord % 2 === 0 ? 0 : 1;
       // movement depends on destination coords
-      const can_move = this.y_coord - 1 >= 0 && this.x_coord + dx_coord <= 16;
+      const can_move =
+         this.y_coord - 1 >= 0 && this.x_coord + dx_coord <= PLAYER_X_BOUNDARY;
       if (can_move) {
-         this.y_coord -= 1;
-         this.x_coord += dx_coord;
-         this.movement_status = "UP";
-         map.moveDown();
-         map.moveLeft(SEMI_HORIZONTAL_STEP);
+         this.moveUp();
+         this.moveRight(SEMI_HORIZONTAL_STEP, dx_coord);
       }
    }
 
@@ -104,13 +201,11 @@ class Player {
       // x decreases when y is even
       let dx_coord = this.y_coord % 2 === 0 ? -1 : 0;
       // movement depends on destination coords
-      const can_move = this.y_coord + 1 <= 16 && this.x_coord + dx_coord >= 0;
+      const can_move =
+         this.y_coord + 1 <= PLAYER_Y_BOUNDARY && this.x_coord + dx_coord >= 0;
       if (can_move) {
-         this.y_coord += 1;
-         this.x_coord += dx_coord;
-         this.movement_status = "DOWN";
-         map.moveUp();
-         map.moveRight(SEMI_HORIZONTAL_STEP);
+         this.moveDown();
+         this.moveLeft (SEMI_HORIZONTAL_STEP, dx_coord);
       }
    }
 
@@ -118,13 +213,12 @@ class Player {
       // x increases when y is odd
       let dx_coord = this.y_coord % 2 === 0 ? 0 : 1;
       // movement depends on destination coords
-      const can_move = this.y_coord + 1 <= 16 && this.x_coord + dx_coord <= 16;
+      const can_move =
+         this.y_coord + 1 <= PLAYER_Y_BOUNDARY &&
+         this.x_coord + dx_coord <= PLAYER_X_BOUNDARY;
       if (can_move) {
-         this.y_coord += 1;
-         this.x_coord += dx_coord;
-         this.movement_status = "DOWN";
-         map.moveUp();
-         map.moveLeft(SEMI_HORIZONTAL_STEP);
+         this.moveDown();
+         this.moveRight(SEMI_HORIZONTAL_STEP, dx_coord);
       }
    }
 }

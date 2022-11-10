@@ -4,30 +4,38 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <link rel="stylesheet" href="index.css"></link>
-   <title>AI/ML Project</title>
+   <title>Document</title>
+   <link rel="stylesheet" href="./index.css" ></link>
 </head>
 <body>
    <aside class="modal-wrapper">
       <div class="modal">
          <header class="modal-header">
-            Game summary
+            Instructions Manual
          </header>
          <section class="modal-body">
+            1. W -> Move up in left diagonal direction <br>
+            2. E -> Move up in right diagonal direction <br>
+            3. D -> Move right <br>
+            4. X -> Move down in right diagonal direction <br>
+            5. Z -> Move down in left diagonal direction <br>
+            6. A -> Move left <br>
+            7. Avoid the muddy areas <br>
+            8. Elude the monster by reaching grasslands <br>
          </section>
          <footer class="modal-footer">
-            <button>
-               Go to Home
-            </button>
-            <button>
-               Play Again
-            </button>
+            <button>Close</button>
          </footer>
       </div>
    </aside>
-   <main id="game-area">
-      <canvas></canvas>
+
+   <main>
+      <p id="game-name">takeshi hexagonal maze</p>
+      <span class="btn-bar">
+         <a href="./game.html">Play Game</a>
+         <button class="instructions-btn">Instructions</button>
+      </span>
    </main>
-   <script src="./game.js" type="module"></script>
+   <script src="./index.js"></script>
 </body>
 </html>

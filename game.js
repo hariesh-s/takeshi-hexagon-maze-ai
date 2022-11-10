@@ -50,7 +50,7 @@ function stop_game(result, message) {
    modal_body.innerHTML = message;
 
    const modal_wrapper = document.querySelector(".modal-wrapper");
-   modal_wrapper.style.display = "flex";
+   modal_wrapper.style.visibility = "visible";
    modal_wrapper.style.opacity = 1;
    canvas.style.filter = "blur(8px)";
 

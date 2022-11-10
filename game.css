@@ -4,19 +4,37 @@
    margin: 0px;
    padding: 0px;
    box-sizing: border-box;
-   font-family: "VT323", monospace;;
+   font-family: "VT323", monospace;
+}
+
+:root {
+   --modal-bg-color: greenyellow;
+   --modal-border-color: green;
 }
 
 body {
+   width: 100vw;
+   height: 100vh;
    background: black;
+}
+
+#game-area {
+   width: 100vw;
+   height: 100vh;
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   justify-content: center;
+   filter: none;
+   transition: 2s filter ease-in-out;
 }
 
 .modal-wrapper {
    position: absolute;
    top: 0px;
    left: 0px;
-   z-index: 2;
-   visibility: hidden; 
+   z-index: 2; /* display over the game-area */
+   visibility: hidden; /* not visible untill game ends */
    width: 100vw;
    height: 100vh;
    background: transparent;
@@ -24,15 +42,15 @@ body {
    align-items: center;
    justify-content: center;
    opacity: 0;
-   transition: 0.5s all ease-in-out;
+   transition: 0.5s opacity ease-in;
 }
 
 .modal {
-   background: #ffe608;
+   background: var(--modal-bg-color);
    width: 40vw;
    display: flex;
    flex-direction: column;
-   border: 2px solid #ffca08;
+   border: 2px solid var(--modal-border-color);
    border-radius: 16px;
 }
 
@@ -41,7 +59,7 @@ body {
    justify-content: center;
    padding: 12px;
    font-size: 40px;
-   border-bottom: 2px solid #ffca08;
+   border-bottom: 2px solid var(--modal-border-color);
 }
 
 .modal-body {
@@ -55,41 +73,16 @@ body {
    padding: 12px 36px;
 }
 
-main {
-   width: 100vw;
-   height: 100vh;
-   color: white;
-   display: flex;
-   flex-direction: column;
-   align-items: center;
-   justify-content: center;
-   gap: 12px;
-}
-
-#game-name {
-   font-size: 80px;
-}
-
-.btn-bar {
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   gap: 120px;
-}
-
-a {
+.modal-footer > a {
    color: black;
    text-decoration: none;
-}
-
-button, a {
-   background: gray;
    padding: 10px;
-   border: 2px solid black;
    border-radius: 6px;
-   font-size: 22px;
+   font-size: 20px;
+   background: gray;
+   border: 2px solid black;
 }
 
-button:hover, a:hover {
+.modal-footer > a:hover {
    transform: scale(1.1);
 }

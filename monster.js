@@ -5,6 +5,8 @@ import {
    VERTICAL_STEP,
    HORIZONTAL_STEP,
    SEMI_HORIZONTAL_STEP,
+   MONSTER_X_BOUNDARY,
+   MONSTER_Y_BOUNDARY,
    SPEED_X,
    SPEED_Y,
 } from "./constants.js";
@@ -152,7 +154,7 @@ class Monster {
       // x increases when y is odd
       let dx_coord = this.y_coord % 2 === 0 ? 0 : 1;
       // movement depends on the destination coords
-      const can_move = this.y_coord - 1 >= 0 && this.x_coord + dx_coord <= 15;
+      const can_move = this.y_coord - 1 >= 0 && this.x_coord + dx_coord <= MONSTER_X_BOUNDARY;
       if (can_move) {
          this.moveUp();
          // the change in it's x canvas coord is const tho
@@ -164,7 +166,7 @@ class Monster {
       // x decreases when y is even
       let dx_coord = this.y_coord % 2 === 0 ? -1 : 0;
       // movement depends on the destination coords
-      const can_move = this.y_coord + 1 <= 15 && this.x_coord + dx_coord >= 0;
+      const can_move = this.y_coord + 1 <= MONSTER_Y_BOUNDARY && this.x_coord + dx_coord >= 0;
       if (can_move) {
          this.moveDown();
          // the change in it's x canvas coord is const tho
@@ -176,7 +178,7 @@ class Monster {
       // x increases when y is odd
       let dx_coord = this.y_coord % 2 === 0 ? 0 : 1;
       // movement depends on the destination coords
-      const can_move = this.y_coord + 1 <= 15 && this.x_coord + dx_coord <= 15;
+      const can_move = this.y_coord + 1 <= MONSTER_Y_BOUNDARY && this.x_coord + dx_coord <= MONSTER_X_BOUNDARY;
       if (can_move) {
          this.moveDown();
          // the change in it's x canvas coord is const tho
