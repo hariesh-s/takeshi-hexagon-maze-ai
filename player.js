@@ -11,7 +11,7 @@ import {
    PLAYER_X_BOUNDARY,
    PLAYER_Y_BOUNDARY,
    SPEED_X,
-   SPEED_Y
+   SPEED_Y,
 } from "./constants.js";
 
 class Player {
@@ -70,8 +70,12 @@ class Player {
       );
    }
 
-   moveUp() {
-      if (this.y_coord - 1 >= 0) {
+   moveUp(can_move = false) {
+      if (
+         can_move ||
+         (this.y_coord - 1 >= 0 &&
+            !map.isObstaclePresent(this.x_coord, this.y_coord - 1))
+      ) {
          this.y_coord += -1;
          this.movement_status = "UP";
 
@@ -83,7 +87,7 @@ class Player {
                   window.cancelAnimationFrame(animatePlayerMoveUp);
                   this.movement_status = "DEFAULT";
                   this.x_spritesheet = 0;
-                  return
+                  return;
                }
 
                this.y += -SPEED_Y;
@@ -96,8 +100,12 @@ class Player {
       }
    }
 
-   moveDown() {
-      if (this.y_coord + 1 <= PLAYER_Y_BOUNDARY) {
+   moveDown(can_move = false) {
+      if (
+         can_move ||
+         (this.y_coord + 1 <= PLAYER_Y_BOUNDARY &&
+            !map.isObstaclePresent(this.x_coord, this.y_coord + 1))
+      ) {
          this.y_coord += 1;
          this.movement_status = "DOWN";
 
@@ -109,7 +117,7 @@ class Player {
                   window.cancelAnimationFrame(animatePlayerMoveDown);
                   this.movement_status = "DEFAULT";
                   this.x_spritesheet = 0;
-                  return
+                  return;
                }
 
                this.y += SPEED_Y;
@@ -122,8 +130,12 @@ class Player {
       }
    }
 
-   moveLeft(dx = HORIZONTAL_STEP, dx_coord = -1) {
-      if (this.x_coord + dx_coord >= 0) {
+   moveLeft(dx = HORIZONTAL_STEP, dx_coord = -1, can_move = false) {
+      if (
+         can_move ||
+         (this.x_coord + dx_coord >= 0 &&
+            !map.isObstaclePresent(this.x_coord + dx_coord, this.y_coord))
+      ) {
          this.x_coord += dx_coord;
          this.movement_status = "LEFT";
 
@@ -148,8 +160,12 @@ class Player {
       }
    }
 
-   moveRight(dx = HORIZONTAL_STEP, dx_coord = 1) {
-      if (this.x_coord + dx_coord <= PLAYER_X_BOUNDARY) {
+   moveRight(dx = HORIZONTAL_STEP, dx_coord = 1, can_move = false) {
+      if (
+         can_move ||
+         (this.x_coord + dx_coord <= PLAYER_X_BOUNDARY &&
+            !map.isObstaclePresent(this.x_coord + dx_coord, this.y_coord))
+      ) {
          this.x_coord += dx_coord;
          this.movement_status = "RIGHT";
 
@@ -178,10 +194,13 @@ class Player {
       // x decreases when y is even
       let dx_coord = this.y_coord % 2 === 0 ? -1 : 0;
       // movement depends on destination coords
-      const can_move = this.y_coord - 1 >= 0 && this.x_coord + dx_coord >= 0;
+      const can_move =
+         this.y_coord - 1 >= 0 &&
+         this.x_coord + dx_coord >= 0 &&
+         !map.isObstaclePresent(this.x_coord + dx_coord, this.y_coord - 1);
       if (can_move) {
-         this.moveUp();
-         this.moveLeft(SEMI_HORIZONTAL_STEP, dx_coord);
+         this.moveUp(true);
+         this.moveLeft(SEMI_HORIZONTAL_STEP, dx_coord, true);
       }
    }
 
@@ -190,10 +209,12 @@ class Player {
       let dx_coord = this.y_coord % 2 === 0 ? 0 : 1;
       // movement depends on destination coords
       const can_move =
-         this.y_coord - 1 >= 0 && this.x_coord + dx_coord <= PLAYER_X_BOUNDARY;
+         this.y_coord - 1 >= 0 &&
+         this.x_coord + dx_coord <= PLAYER_X_BOUNDARY &&
+         !map.isObstaclePresent(this.x_coord + dx_coord, this.y_coord - 1);
       if (can_move) {
-         this.moveUp();
-         this.moveRight(SEMI_HORIZONTAL_STEP, dx_coord);
+         this.moveUp(true);
+         this.moveRight(SEMI_HORIZONTAL_STEP, dx_coord, true);
       }
    }
 
@@ -202,10 +223,12 @@ class Player {
       let dx_coord = this.y_coord % 2 === 0 ? -1 : 0;
       // movement depends on destination coords
       const can_move =
-         this.y_coord + 1 <= PLAYER_Y_BOUNDARY && this.x_coord + dx_coord >= 0;
+         this.y_coord + 1 <= PLAYER_Y_BOUNDARY &&
+         this.x_coord + dx_coord >= 0 &&
+         !map.isObstaclePresent(this.x_coord + dx_coord, this.y_coord + 1);
       if (can_move) {
-         this.moveDown();
-         this.moveLeft (SEMI_HORIZONTAL_STEP, dx_coord);
+         this.moveDown(true);
+         this.moveLeft(SEMI_HORIZONTAL_STEP, dx_coord, true);
       }
    }
 
@@ -215,10 +238,11 @@ class Player {
       // movement depends on destination coords
       const can_move =
          this.y_coord + 1 <= PLAYER_Y_BOUNDARY &&
-         this.x_coord + dx_coord <= PLAYER_X_BOUNDARY;
+         this.x_coord + dx_coord <= PLAYER_X_BOUNDARY &&
+         !map.isObstaclePresent(this.x_coord + dx_coord, this.y_coord + 1);
       if (can_move) {
-         this.moveDown();
-         this.moveRight(SEMI_HORIZONTAL_STEP, dx_coord);
+         this.moveDown(true);
+         this.moveRight(SEMI_HORIZONTAL_STEP, dx_coord, true);
       }
    }
 }

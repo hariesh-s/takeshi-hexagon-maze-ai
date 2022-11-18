@@ -4,7 +4,7 @@
    margin: 0px;
    padding: 0px;
    box-sizing: border-box;
-   font-family: "VT323", monospace;;
+   font-family: "VT323", monospace;
 }
 
 body {
@@ -16,7 +16,7 @@ body {
    top: 0px;
    left: 0px;
    z-index: 2;
-   visibility: hidden; 
+   visibility: hidden;
    width: 100vw;
    height: 100vh;
    background: transparent;
@@ -82,7 +82,8 @@ a {
    text-decoration: none;
 }
 
-button, a {
+button,
+a {
    background: gray;
    padding: 10px;
    border: 2px solid black;
@@ -90,6 +91,7 @@ button, a {
    font-size: 22px;
 }
 
-button:hover, a:hover {
+button:hover,
+a:hover {
    transform: scale(1.1);
 }

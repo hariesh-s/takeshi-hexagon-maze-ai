@@ -1,5 +1,9 @@
 import player from "./player.js";
-import { MONSTER_X_BOUNDARY, MONSTER_Y_BOUNDARY } from "./constants.js";
+import {
+   MONSTER_X_BOUNDARY,
+   MONSTER_Y_BOUNDARY,
+   OBSTACLE_MATRIX,
+} from "./constants.js";
 
 function straightLineDist(x_player, y_player, x, y) {
    return Math.sqrt((x_player - x) ** 2 + (y_player - y) ** 2);
@@ -7,7 +11,8 @@ function straightLineDist(x_player, y_player, x, y) {
 
 function isValid(x, y) {
    if (x >= 0 && x <= MONSTER_X_BOUNDARY)
-      if (y >= 0 && y <= MONSTER_Y_BOUNDARY) return true;
+      if (y >= 0 && y <= MONSTER_Y_BOUNDARY)
+         if (OBSTACLE_MATRIX[y][x] === 0) return true;
    return false;
 }
 

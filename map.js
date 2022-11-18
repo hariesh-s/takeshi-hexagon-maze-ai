@@ -1,5 +1,10 @@
 import { canva } from "./canvas.js";
-import { SPEED_X, SPEED_Y, VERTICAL_STEP } from "./constants.js";
+import {
+   SPEED_X,
+   SPEED_Y,
+   VERTICAL_STEP,
+   OBSTACLE_MATRIX,
+} from "./constants.js";
 import player from "./player.js";
 import monster from "./monster.js";
 
@@ -12,6 +17,12 @@ class Map {
 
    draw() {
       canva.drawImage(this.img, this.x, this.y);
+   }
+
+   isObstaclePresent(x, y) {
+      console.log("obstacle ", x, y);
+      if (OBSTACLE_MATRIX[y][x] != 0) return true;
+      else return false;
    }
 
    // closure
